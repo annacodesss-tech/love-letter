@@ -345,16 +345,33 @@
             document.getElementById('mainContainer').classList.toggle('open');
         }
 
-        // Music toggle simulation
-        let isPlaying = false;
+       
+        // Real music control
         const musicBtn = document.getElementById('musicBtn');
         const musicStatus = document.getElementById('musicStatus');
-        
+        const musicIcon = document.getElementById('musicIcon');
+        const audio = document.getElementById('bgMusic');
+
+        function playAudio() {
+            audio.play().then(() => {
+                musicStatus.innerText = "Now Playing: L'Amour";
+                musicIcon.innerText = "⏸";
+                musicBtn.style.background = "#fff0f6";
+            }).catch(error => {
+                console.log("Autoplay prevented. Click the button to play.");
+            });
+        }
+
         musicBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            isPlaying = !isPlaying;
-            musicStatus.innerText = isPlaying ? "Now Playing: L'Amour" : "Valentine Radio";
-            musicBtn.style.background = isPlaying ? "#fff0f6" : "white";
+            if (audio.paused) {
+                playAudio();
+            } else {
+                audio.pause();
+                musicStatus.innerText = "Valentine Radio";
+                musicIcon.innerText = "🎵";
+                musicBtn.style.background = "white";
+            }
         });
     </script>
 </body>
